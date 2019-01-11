@@ -6,11 +6,10 @@ namespace bookstore.Server.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private readonly BookstoreDbContext _context;
-
-        public SampleDataController(BookstoreDbContext context)
-        {
-            _context = context;
+              
+        [Route("Vlada")]
+        public IActionResult bla() {
+            return Json("Vladimir");
+                }
         }
-    }
 }

@@ -1,46 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using bookstore.Shared.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bookstore.Server.Controllers
 {
     [Route("api/[controller]")]
-    public class UserController : Controller
+    [ApiController]
+    public class BookController : ControllerBase
     {
+
         private readonly BookstoreDbContext _context;
 
-        public UserController(BookstoreDbContext context)
+        public BookController(BookstoreDbContext context)
         {
             _context = context;
         }
 
         [Route("[action]")]
-        public List<User> Get()
+        public List<Book> Get()
         {
-            List<User> users = _context.User.ToList();
+            List<Book> books = _context.Book.ToList();
 
-            return users;
+            return books;
         }
 
         [Route("[action]/{id?}")]
-        public User Get(int id)
+        public Book Get(int id)
         {
-            User user = _context.User.Find(id);
+            Book book = _context.Book.Find(id);
 
-            return user;
+            return book;
         }
 
         [HttpPost]
         [Route("[action]")]
-        public bool Create([FromBody]User user)
+        public bool Create([FromBody]Book book)
         {
             // TODO: Add validation logic
 
             try
             {
-                _context.User.Add(user);
+                _context.Book.Add(book);
 
                 _context.SaveChanges();
 
@@ -49,26 +53,25 @@ namespace bookstore.Server.Controllers
             catch (Exception e)
             {
                 // TODO: Add exception logging?
-                
+
                 return false;
             }
         }
 
         [HttpPost]
         [Route("[action]")]
-        public bool Update([FromBody]User user)
+        public bool Update([FromBody]Book book)
         {
             try
             {
-                _context.User.Update(user);
+                _context.Book.Update(book);
 
                 _context.SaveChanges();
 
                 return true;
             }
             catch (Exception e)
-            {
-                // TODO: Add exception logging?
+            {           
 
                 return false;
             }
@@ -78,29 +81,26 @@ namespace bookstore.Server.Controllers
         [Route("[action]/{id?}")]
         public bool Delete(int id)
         {
-            User user = _context.User.Find(id);
+            Book book = _context.Book.Find(id);
 
-            if (user == null)
+            if (book == null)
             {
-                
-                return false ;
+                return false;
             }
 
             try
             {
-                
-                _context.User.Remove(user);
-             
+
+                _context.Book.Remove(book);
                 _context.SaveChanges();
 
                 return true;
             }
-            catch (Exception e)
-            {
-                // TODO: Add exception logging?
+            catch(Exception e) {
 
                 return false;
             }
+
         }
     }
 }
