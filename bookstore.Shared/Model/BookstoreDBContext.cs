@@ -1,40 +1,29 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace bookstore.Server.Model
+namespace bookstore.Shared.Model
 {
-    public partial class BookstoreDBContext : DbContext
+    public class BookstoreDbContext : DbContext
     {
-        public BookstoreDBContext()
+        public BookstoreDbContext()
         {
         }
 
-        public BookstoreDBContext(DbContextOptions<BookstoreDBContext> options)
+        public BookstoreDbContext(DbContextOptions<BookstoreDbContext> options)
             : base(options)
         {
         }
 
         public virtual DbSet<Book> Book { get; set; }
-        public virtual DbSet<CartItem> CartItem { get; set; }
+        public virtual DbSet<ShoppingCartItem> ShoppingCartItem { get; set; }
         public virtual DbSet<ShoppingCart> ShoppingCart { get; set; }
         public virtual DbSet<User> User { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=VLADIMIR\\VLADIMIR;Database=BookstoreDB;user id= VLADIMIR\\Vlada;Trusted_Connection=True;MultipleActiveResultSets=true");
-            }
-        }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Book>(entity =>
             {
-                entity.Property(e => e.BookId).ValueGeneratedNever();
-
+                entity.HasKey(e => e.Id);
+                
                 entity.Property(e => e.Author)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -54,41 +43,35 @@ namespace bookstore.Server.Model
                     .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<CartItem>(entity =>
+            modelBuilder.Entity<ShoppingCartItem>(entity =>
             {
-                entity.HasKey(e => e.CardItemId);
+                entity.HasKey(e => e.Id);
 
-                entity.HasOne(d => d.Book)
-                    .WithMany(p => p.InverseBook)
-                    .HasForeignKey(d => d.BookId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CardItem_CardItem");
+                entity.Property(e => e.Quantity).IsRequired();
 
-                entity.HasOne(d => d.ShoppingCart)
-                    .WithMany(p => p.InverseShoppingCart)
-                    .HasForeignKey(d => d.ShoppingCartId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CardItem_CardItem1");
+                entity.Property(e => e.Subtotal).IsRequired();
             });
 
             modelBuilder.Entity<ShoppingCart>(entity =>
             {
-                entity.HasOne(d => d.CardItem)
-                    .WithMany(p => p.InverseCardItem)
-                    .HasForeignKey(d => d.CardItemId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ShoppingCart_ShoppingCart1");
+                entity.HasKey(e => e.Id);
+                
+                entity.Property(e => e.GrandTotal);
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.InverseUser)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ShoppingCart_ShoppingCart");
+                entity.HasMany(e => e.ShoppingCartItems)
+                    .WithOne(d => d.ShoppingCart)
+                    .HasForeignKey(d => d.ShoppingCartId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.User)
+                    .WithMany(c => c.ShoppingCarts)
+                    .HasForeignKey(c => c.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.HasKey(e => e.Id);
 
                 entity.Property(e => e.Email)
                     .IsRequired()

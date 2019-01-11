@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace bookstore.Server.Model
+namespace bookstore.Shared.Model
 {
-    public partial class User
+    public class User : BaseEntity
     {
-        public int UserId { get; set; }
         public string Username { get; set; }
+
         public string Password { get; set; }
+
         public string FirstName { get; set; }
+
         public string LastName { get; set; }
+
         public string Email { get; set; }
-        public int? Phone { get; set; }
+
+        public virtual List<ShoppingCart> ShoppingCarts { get; set; }
     }
 }
