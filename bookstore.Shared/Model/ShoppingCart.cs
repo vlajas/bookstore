@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace bookstore.Server.Model
 {
-    public class ShoppingCart
+    public partial class ShoppingCart
     {
-        [Key]
-      public int  ShoppingCartId { get; set; }
+        public ShoppingCart()
+        {
+            InverseCardItem = new HashSet<ShoppingCart>();
+            InverseUser = new HashSet<ShoppingCart>();
+        }
 
+        public int ShoppingCartId { get; set; }
         public int UserId { get; set; }
-        public virtual  User User { get; set; }
+        public int CardItemId { get; set; }
+        public int GrandTotal { get; set; }
 
-        public virtual List<CardItem> CardItems { get; set; }
-
-        public int grand_total;
-
-
+        public ShoppingCart CardItem { get; set; }
+        public ShoppingCart User { get; set; }
+        public ICollection<ShoppingCart> InverseCardItem { get; set; }
+        public ICollection<ShoppingCart> InverseUser { get; set; }
     }
 }
