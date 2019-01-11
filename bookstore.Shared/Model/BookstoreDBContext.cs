@@ -37,47 +37,26 @@ namespace bookstore.Server.Model
 
                 entity.Property(e => e.Author)
                     .IsRequired()
-                    .HasColumnName("author")
                     .HasMaxLength(50);
 
                 entity.Property(e => e.Category)
                     .IsRequired()
-                    .HasColumnName("category")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Image).HasColumnName("image");
+                entity.Property(e => e.Language).HasMaxLength(50);
 
-                entity.Property(e => e.Isbn).HasColumnName("isbn");
+                entity.Property(e => e.PublicationDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Language)
-                    .HasColumnName("language")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.NumberOfPages).HasColumnName("number_of_pages");
-
-                entity.Property(e => e.Price).HasColumnName("price");
-
-                entity.Property(e => e.PublicationDate)
-                    .HasColumnName("publication_date")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.Publisher)
-                    .HasColumnName("publisher")
-                    .HasMaxLength(50);
+                entity.Property(e => e.Publisher).HasMaxLength(50);
 
                 entity.Property(e => e.Title)
                     .IsRequired()
-                    .HasColumnName("title")
                     .HasMaxLength(50);
             });
 
             modelBuilder.Entity<CartItem>(entity =>
             {
                 entity.HasKey(e => e.CardItemId);
-
-                entity.Property(e => e.Qty).HasColumnName("qty");
-
-                entity.Property(e => e.Subtotal).HasColumnName("subtotal");
 
                 entity.HasOne(d => d.Book)
                     .WithMany(p => p.InverseBook)
@@ -94,8 +73,6 @@ namespace bookstore.Server.Model
 
             modelBuilder.Entity<ShoppingCart>(entity =>
             {
-                entity.Property(e => e.GrandTotal).HasColumnName("grand_total");
-
                 entity.HasOne(d => d.CardItem)
                     .WithMany(p => p.InverseCardItem)
                     .HasForeignKey(d => d.CardItemId)
@@ -115,29 +92,22 @@ namespace bookstore.Server.Model
 
                 entity.Property(e => e.Email)
                     .IsRequired()
-                    .HasColumnName("email")
                     .HasMaxLength(50);
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
-                    .HasColumnName("first_name")
                     .HasMaxLength(20);
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
-                    .HasColumnName("last_name")
                     .HasMaxLength(20);
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasColumnName("password")
                     .HasMaxLength(50);
-
-                entity.Property(e => e.Phone).HasColumnName("phone");
 
                 entity.Property(e => e.Username)
                     .IsRequired()
-                    .HasColumnName("username")
                     .HasMaxLength(50);
             });
         }
