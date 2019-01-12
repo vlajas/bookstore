@@ -9,7 +9,7 @@
             <h1>Users</h1>
         </div>
         <div class="col-md-2">
-            <button class="btn btn-success float-right" onclick="@(() => UriHelper.NavigateTo("/user/create"))">Create User</button>
+            <a class="btn btn-success float-right" href="@("/user/create")">Create User</a>
         </div>
     </div>
     
@@ -39,7 +39,7 @@
                             <td class="text-center">@user.Username</td>
                             <td class="text-center">@user.LastName</td>
                             <td class="text-center">
-                                <button class="btn btn-primary" onclick="@(() => UriHelper.NavigateTo($"/user/edit/{user.Id}"))">Edit</button>
+                                <a class="btn btn-primary" href="@($"/user/edit/{user.Id}")">Edit</a>
                                 <button class="btn btn-danger" onclick="@(async () => await DeleteUser(user.Id))">Delete</button>
                             </td>
                         </tr>
