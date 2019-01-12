@@ -16,6 +16,7 @@ namespace bookstore.Server.Controllers
             _context = context;
         }
 
+        [HttpGet]
         [Route("[action]")]
         public List<User> Get()
         {
@@ -24,6 +25,7 @@ namespace bookstore.Server.Controllers
             return users;
         }
 
+        [HttpGet]
         [Route("[action]/{id?}")]
         public User Get(int id)
         {
@@ -32,7 +34,7 @@ namespace bookstore.Server.Controllers
             return user;
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("[action]")]
         public bool Create([FromBody]User user)
         {
@@ -74,7 +76,7 @@ namespace bookstore.Server.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("[action]/{id?}")]
         public bool Delete(int id)
         {
@@ -82,13 +84,11 @@ namespace bookstore.Server.Controllers
 
             if (user == null)
             {
-                
                 return false ;
             }
 
             try
             {
-                
                 _context.User.Remove(user);
              
                 _context.SaveChanges();
