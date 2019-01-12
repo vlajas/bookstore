@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace bookstore.Shared.Model
+namespace bookstore.Shared.Entities
 {
     public class User : BaseEntity
     {
@@ -15,5 +15,9 @@ namespace bookstore.Shared.Model
         public string Email { get; set; }
 
         public virtual List<ShoppingCart> ShoppingCarts { get; set; }
+
+        public virtual List<UserRoleMapping> UserRoleMappings { get; set; }
+
+        public virtual List<Role> Roles { get; set; }
     }
 }

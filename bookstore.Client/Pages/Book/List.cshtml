@@ -1,6 +1,7 @@
 ﻿@page "/book"
 @page "/book/list"
 
+@using bookstore.Shared.Entities
 @inherits bookstore.Client.Components.Book.BookListComponent
 
 <div class="container-fluid">
@@ -39,7 +40,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (bookstore.Shared.Model.Book book in Books)
+                        @foreach (Book book in Books)
                         {
                             <tr>
                                 <td class="text-center">@book.Title</td>

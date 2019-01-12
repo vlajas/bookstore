@@ -13,12 +13,12 @@ namespace bookstore.Client.Components.User
         [Parameter]
         private string UserId { get; set; }
 
-        protected bookstore.Shared.Model.User User { get; set; } = new bookstore.Shared.Model.User();
+        protected bookstore.Shared.Entities.User User { get; set; } = new bookstore.Shared.Entities.User();
 
 
         protected override async Task OnInitAsync()
         {
-            User = await Http.GetJsonAsync<bookstore.Shared.Model.User>(string.Format(UserApi.Get, UserId));
+            User = await Http.GetJsonAsync<bookstore.Shared.Entities.User>(string.Format(UserApi.Get, UserId));
         }
 
         protected async Task EditUser()

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using bookstore.Core.Data;
-using bookstore.Shared.Model;
+using bookstore.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bookstore.Server.Controllers

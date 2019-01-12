@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace bookstore.Shared.Model
+namespace bookstore.Shared.Entities
 {
     public class BookstoreDbContext : DbContext
     {
@@ -17,7 +17,9 @@ namespace bookstore.Shared.Model
         public virtual DbSet<ShoppingCartItem> ShoppingCartItem { get; set; }
         public virtual DbSet<ShoppingCart> ShoppingCart { get; set; }
         public virtual DbSet<User> User { get; set; }
-        
+        public virtual DbSet<Role> Role { get; set; }
+        public virtual DbSet<UserRoleMapping> UserRoleMapping { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Book>(entity =>
@@ -92,6 +94,27 @@ namespace bookstore.Shared.Model
                 entity.Property(e => e.Username)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Ignore(e => e.Roles);
+            });
+
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<UserRoleMapping>(entity =>
+            {
+                entity.Ignore(e => e.Id);
+
+                entity.HasKey(e => new {e.UserId, e.RoleId});
+
+                entity.HasOne(e => e.User)
+                    .WithMany(u => u.UserRoleMappings)
+                    .HasForeignKey(e => e.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

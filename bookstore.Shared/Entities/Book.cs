@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace bookstore.Shared.Model
+namespace bookstore.Shared.Entities
 {
     public class Book : BaseEntity
     {

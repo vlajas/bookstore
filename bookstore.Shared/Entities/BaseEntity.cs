@@ -1,4 +1,4 @@
-﻿namespace bookstore.Shared.Model
+﻿namespace bookstore.Shared.Entities
 {
     public abstract class BaseEntity
     {

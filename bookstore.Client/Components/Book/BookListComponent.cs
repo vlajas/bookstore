@@ -12,7 +12,7 @@ namespace bookstore.Client.Components.Book
         [Inject]
         private BookApi BookApi { get; set; }
 
-        protected IList<bookstore.Shared.Model.Book> Books { get; private set; } = new List<bookstore.Shared.Model.Book>();
+        protected IList<bookstore.Shared.Entities.Book> Books { get; private set; } = new List<bookstore.Shared.Entities.Book>();
 
         protected override async Task OnInitAsync()
         {
@@ -21,7 +21,7 @@ namespace bookstore.Client.Components.Book
 
         private async Task Refresh()
         {
-            Books = await Http.GetJsonAsync<bookstore.Shared.Model.Book[]>(BookApi.GetAll);
+            Books = await Http.GetJsonAsync<bookstore.Shared.Entities.Book[]>(BookApi.GetAll);
 
             StateHasChanged();
         }

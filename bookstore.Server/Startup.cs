@@ -6,7 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Net.Mime;
 using bookstore.Core.Data;
-using bookstore.Shared.Model;
+using bookstore.Core.Services;
+using bookstore.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -41,6 +42,7 @@ namespace bookstore.Server
                 .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
 
             services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddTransient<IAuthorizationService, AuthorizationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

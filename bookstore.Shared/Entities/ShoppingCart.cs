@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace bookstore.Shared.Model
+namespace bookstore.Shared.Entities
 {
     public class ShoppingCart : BaseEntity
     {

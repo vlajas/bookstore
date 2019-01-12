@@ -18,16 +18,29 @@ namespace bookstore.Shared.Migrations
                     Price = table.Column<decimal>(nullable: false),
                     Author = table.Column<string>(maxLength: 50, nullable: false),
                     Publisher = table.Column<string>(maxLength: 50, nullable: true),
-                    PublicationDate = table.Column<DateTime>(type: "datetime", nullable: true),
+                    PublicationDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     Language = table.Column<string>(maxLength: 50, nullable: true),
                     ImageUrl = table.Column<string>(nullable: true),
                     Category = table.Column<string>(maxLength: 50, nullable: false),
-                    Isbn = table.Column<int>(nullable: false),
+                    Isbn = table.Column<string>(nullable: true),
                     NumberOfPages = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Book", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Role",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 50, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Role", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,6 +78,30 @@ namespace bookstore.Shared.Migrations
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRoleMapping",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoleMapping", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_UserRoleMapping_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserRoleMapping_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,6 +146,11 @@ namespace bookstore.Shared.Migrations
                 name: "IX_ShoppingCartItem_ShoppingCartId",
                 table: "ShoppingCartItem",
                 column: "ShoppingCartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoleMapping_RoleId",
+                table: "UserRoleMapping",
+                column: "RoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -117,10 +159,16 @@ namespace bookstore.Shared.Migrations
                 name: "ShoppingCartItem");
 
             migrationBuilder.DropTable(
+                name: "UserRoleMapping");
+
+            migrationBuilder.DropTable(
                 name: "Book");
 
             migrationBuilder.DropTable(
                 name: "ShoppingCart");
+
+            migrationBuilder.DropTable(
+                name: "Role");
 
             migrationBuilder.DropTable(
                 name: "User");

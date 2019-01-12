@@ -10,7 +10,7 @@ namespace bookstore.Client.Components.User
         [Inject]
         private UserApi UserApi { get; set; }
         
-        protected bookstore.Shared.Model.User User { get; set; } = new bookstore.Shared.Model.User();
+        protected bookstore.Shared.Entities.User User { get; set; } = new bookstore.Shared.Entities.User();
 
         protected async Task CreateUser()
         {

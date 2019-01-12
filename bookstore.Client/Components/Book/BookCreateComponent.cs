@@ -10,7 +10,7 @@ namespace bookstore.Client.Components.Book
         [Inject]
         private BookApi BookApi { get; set; }
 
-        protected bookstore.Shared.Model.Book Book { get; set; } = new bookstore.Shared.Model.Book();
+        protected bookstore.Shared.Entities.Book Book { get; set; } = new bookstore.Shared.Entities.Book();
 
         protected async Task CreateBook()
         {

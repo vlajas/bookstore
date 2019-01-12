@@ -1,6 +1,7 @@
 ﻿@page "/user"
 @page "/user/list"
 
+@using bookstore.Shared.Entities
 @inherits bookstore.Client.Components.User.UserListComponent
 
 <div class="container-fluid">
@@ -32,7 +33,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (bookstore.Shared.Model.User user in Users)
+                    @foreach (User user in Users)
                     {
                         <tr>
                             <td class="text-center">@($"{user.FirstName} {user.LastName}")</td>

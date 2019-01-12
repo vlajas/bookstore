@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using bookstore.Shared.Model;
+using bookstore.Shared.Entities;
 
 namespace bookstore.Core.Data
 {

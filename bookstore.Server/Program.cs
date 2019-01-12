@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using bookstore.Server.Extensions;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -8,7 +9,9 @@ namespace bookstore.Server
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            BuildWebHost(args)
+                .SeedData()
+                .Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
