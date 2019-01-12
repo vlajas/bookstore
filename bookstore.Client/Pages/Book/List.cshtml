@@ -1,0 +1,71 @@
+﻿@page "/book"
+@page "/book/list"
+
+@inherits bookstore.Client.Components.Book.BookListComponent
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10">
+            <h1>Books</h1>
+        </div>
+        <div class="col-md-2">
+            <a class="btn btn-success float-right" href="@("/book/create")">Create Book</a>
+        </div>
+    </div>
+
+    <div style="margin-top: 25px">
+        @if (Books == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            if (Books.Count > 0)
+            {
+                <table class="table table-striped table-bordered table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 9%">Title</th>
+                            <th class="text-center" style="width: 9%">Author</th>
+                            <th class="text-center" style="width: 9%">Publisher</th>
+                            <th class="text-center" style="width: 9%">Publication Date</th>
+                            <th class="text-center" style="width: 9%">Price</th>
+                            <th class="text-center" style="width: 9%">Language</th>
+                            <th class="text-center" style="width: 9%">Image</th>
+                            <th class="text-center" style="width: 9%">Category</th>
+                            <th class="text-center" style="width: 9%">ISBN</th>
+                            <th class="text-center" style="width: 9%"># of pages</th>
+                            <th class="text-center" style="width: 10%">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (bookstore.Shared.Model.Book book in Books)
+                        {
+                            <tr>
+                                <td class="text-center">@book.Title</td>
+                                <td class="text-center">@book.Author</td>
+                                <td class="text-center">@book.Publisher</td>
+                                <td class="text-center">@book.PublicationDate.ToString("dd/MM/yyyy")</td>
+                                <td class="text-center">@book.Price.ToString("N2")</td>
+                                <td class="text-center">@book.Language</td>
+                                <td class="text-center">
+                                    @if (!string.IsNullOrWhiteSpace(book.ImageUrl))
+                                    {
+                                        <img src="@book.ImageUrl" alt="@book.Title" width="70" height="100" />
+                                    }
+                                </td>
+                                <td class="text-center">@book.Category</td>
+                                <td class="text-center">@book.Isbn</td>
+                                <td class="text-center">@book.NumberOfPages</td>
+                                <td class="text-center">
+                                    <a class="btn btn-primary" href="@($"/book/edit/{book.Id}")">Edit</a>
+                                    <button class="btn btn-danger" onclick="@(async () => await DeleteBook(book.Id))">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        }
+    </div>
+</div>

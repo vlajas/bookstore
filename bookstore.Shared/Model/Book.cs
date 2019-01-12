@@ -12,7 +12,7 @@ namespace bookstore.Shared.Model
 
         public string Publisher { get; set; }
 
-        public DateTime? PublicationDate { get; set; }
+        public DateTime PublicationDate { get; set; }
 
         public string Language { get; set; }
 
@@ -20,7 +20,7 @@ namespace bookstore.Shared.Model
 
         public string Category { get; set; }
 
-        public int Isbn { get; set; }
+        public string Isbn { get; set; }
 
         public int NumberOfPages { get; set; }
     }

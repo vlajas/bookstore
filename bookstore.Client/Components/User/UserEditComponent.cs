@@ -7,6 +7,9 @@ namespace bookstore.Client.Components.User
 {
     public class UserEditComponent : ComponentBase
     {
+        [Inject]
+        private UserApi UserApi { get; set; }
+
         [Parameter]
         private string UserId { get; set; }
 

@@ -1,0 +1,56 @@
+﻿@page "/book/edit/{BookId}"
+
+@inherits bookstore.Client.Components.Book.BookEditComponent
+
+<h1>Edit Book</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="Title" class="control-label">Title</label>
+            <input for="Title" class="form-control" bind="@Book.Title" />
+        </div>
+        <div class="form-group">
+            <label for="Title" class="control-label">Author</label>
+            <input for="Author" class="form-control" bind="@Book.Author" />
+        </div>
+        <div class="form-group">
+            <label for="Publisher" class="control-label">Publisher</label>
+            <input for="Publisher" class="form-control" bind="@Book.Publisher" />
+        </div>
+        <div class="form-group">
+            <label for="PublicationDate" class="control-label">Publication Date</label>
+            <input type="datetime" for="PublicationDate" class="form-control" bind="@Book.PublicationDate" />
+        </div>
+        <div class="form-group">
+            <label for="Price" class="control-label">Price</label>
+            <input type="number" for="Price" class="form-control" bind="@Book.Price" />
+        </div>
+        <div class="form-group">
+            <label for="Language" class="control-label">Language</label>
+            <input for="Language" class="form-control" bind="@Book.Language" />
+        </div>
+        <div class="form-group">
+            <label for="ImageUrl" class="control-label">Cover Image URL</label>
+            <input for="ImageUrl" class="form-control" bind="@Book.ImageUrl" />
+        </div>
+        <div class="form-group">
+            <label for="Category" class="control-label">Category</label>
+            <input for="Category" class="form-control" bind="@Book.Category" />
+        </div>
+        <div class="form-group">
+            <label for="Isbn" class="control-label">ISBN</label>
+            <input for="Isbn" class="form-control" bind="@Book.Isbn" />
+        </div>
+        <div class="form-group">
+            <label for="NumberOfPages" class="control-label">Number of Pages</label>
+            <input type="number" for="NumberOfPages" class="form-control" bind="@Book.NumberOfPages" />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-default" onclick="@(async () => await EditBook())">Save</button>
+            <button class="btn" onclick="@RedirectToList">Cancel</button>
+        </div>
+    </div>
+</div>  

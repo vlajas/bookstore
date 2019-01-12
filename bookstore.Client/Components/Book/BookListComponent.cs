@@ -5,14 +5,14 @@ using bookstore.Shared.Constants;
 using Microsoft.AspNetCore.Blazor;
 using Microsoft.AspNetCore.Blazor.Components;
 
-namespace bookstore.Client.Components.User
+namespace bookstore.Client.Components.Book
 {
-    public class UserListComponent : ComponentBase
+    public class BookListComponent : ComponentBase
     {
         [Inject]
-        private UserApi UserApi { get; set; }
+        private BookApi BookApi { get; set; }
 
-        protected IList<bookstore.Shared.Model.User> Users { get; private set; } = new List<bookstore.Shared.Model.User>();
+        protected IList<bookstore.Shared.Model.Book> Books { get; private set; } = new List<bookstore.Shared.Model.Book>();
 
         protected override async Task OnInitAsync()
         {
@@ -21,14 +21,14 @@ namespace bookstore.Client.Components.User
 
         private async Task Refresh()
         {
-            Users = await Http.GetJsonAsync<bookstore.Shared.Model.User[]>(UserApi.GetAll);
+            Books = await Http.GetJsonAsync<bookstore.Shared.Model.Book[]>(BookApi.GetAll);
 
             StateHasChanged();
         }
 
-        protected async Task DeleteUser(int id)
+        protected async Task DeleteBook(int id)
         {
-            bool result = await Http.DeleteJsonAsync<bool>(string.Format(UserApi.Delete, id));
+            bool result = await Http.DeleteJsonAsync<bool>(string.Format(BookApi.Delete, id));
 
             if (result)
             {
