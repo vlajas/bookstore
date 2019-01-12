@@ -17,7 +17,6 @@ namespace bookstore.Server.Controllers
         }
 
         [HttpGet]
-        [Route("[action]")]
         public List<User> Get()
         {
             List<User> users = _context.User.ToList();
@@ -26,7 +25,7 @@ namespace bookstore.Server.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{id?}")]
+        [Route("{id?}")]
         public User Get(int id)
         {
             User user = _context.User.Find(id);
@@ -35,7 +34,6 @@ namespace bookstore.Server.Controllers
         }
 
         [HttpPut]
-        [Route("[action]")]
         public bool Create([FromBody]User user)
         {
             // TODO: Add validation logic
@@ -57,7 +55,6 @@ namespace bookstore.Server.Controllers
         }
 
         [HttpPost]
-        [Route("[action]")]
         public bool Update([FromBody]User user)
         {
             try
@@ -77,7 +74,7 @@ namespace bookstore.Server.Controllers
         }
 
         [HttpDelete]
-        [Route("[action]/{id?}")]
+        [Route("{id?}")]
         public bool Delete(int id)
         {
             User user = _context.User.Find(id);

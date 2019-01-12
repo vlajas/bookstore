@@ -1,0 +1,52 @@
+﻿@page "/user"
+@page "/user/list"
+
+@inherits bookstore.Client.Components.User.UserListComponent
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10">
+            <h1>Users</h1>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-success float-right" onclick="@(() => UriHelper.NavigateTo("/user/create"))">Create User</button>
+        </div>
+    </div>
+    
+    <div style="margin-top: 25px">
+        @if (Users == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            if (Users.Count > 0)
+            {
+                <table class="table table-striped table-bordered table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th class="text-center" style="width: 25%">Name</th>
+                        <th class="text-center" style="width: 25%">Username</th>
+                        <th class="text-center" style="width: 25%">Email</th>
+                        <th class="text-center" style="width: 25%">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (bookstore.Shared.Model.User user in Users)
+                    {
+                        <tr>
+                            <td class="text-center">@($"{user.FirstName} {user.LastName}")</td>
+                            <td class="text-center">@user.Username</td>
+                            <td class="text-center">@user.LastName</td>
+                            <td class="text-center">
+                                <button class="btn btn-primary" onclick="@(() => UriHelper.NavigateTo($"/user/edit/{user.Id}"))">Edit</button>
+                                <button class="btn btn-danger" onclick="@(async () => await DeleteUser(user.Id))">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+        }
+    </div>
+</div>
