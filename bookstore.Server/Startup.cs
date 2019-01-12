@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Net.Mime;
+using bookstore.Core.Data;
 using bookstore.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -38,6 +39,8 @@ namespace bookstore.Server
             services.AddDbContext<BookstoreDbContext>(opts => opts
                 .UseLazyLoadingProxies()
                 .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

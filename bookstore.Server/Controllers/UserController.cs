@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using bookstore.Core.Data;
 using bookstore.Shared.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,17 +8,17 @@ namespace bookstore.Server.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        private readonly BookstoreDbContext _context;
+        private readonly IRepository<User> _userRepository;
 
-        public UserController(BookstoreDbContext context)
+        public UserController(IRepository<User> userRepository)
         {
-            _context = context;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
         public List<User> Get()
         {
-            List<User> users = _context.User.ToList();
+            List<User> users = _userRepository.GetAll();
 
             return users;
         }
@@ -28,7 +27,7 @@ namespace bookstore.Server.Controllers
         [Route("{id?}")]
         public User Get(int id)
         {
-            User user = _context.User.Find(id);
+            User user = _userRepository.Get(id);
 
             return user;
         }
@@ -38,66 +37,22 @@ namespace bookstore.Server.Controllers
         {
             // TODO: Add validation logic
 
-            try
-            {
-                _context.User.Add(user);
-
-                _context.SaveChanges();
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                // TODO: Add exception logging?
-                
-                return false;
-            }
+            return _userRepository.Insert(user);
         }
 
         [HttpPost]
         public bool Update([FromBody]User user)
         {
-            try
-            {
-                _context.User.Update(user);
-
-                _context.SaveChanges();
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                // TODO: Add exception logging?
-
-                return false;
-            }
+            return _userRepository.Update(user);
         }
 
         [HttpDelete]
         [Route("{id?}")]
         public bool Delete(int id)
         {
-            User user = _context.User.Find(id);
+            User user = _userRepository.Get(id);
 
-            if (user == null)
-            {
-                return false ;
-            }
-
-            try
-            {
-                _context.User.Remove(user);
-             
-                _context.SaveChanges();
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                // TODO: Add exception logging?
-
-                return false;
-            }
+            return user != null && _userRepository.Delete(user);
         }
     }
 }
