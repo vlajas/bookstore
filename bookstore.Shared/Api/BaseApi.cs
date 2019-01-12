@@ -1,4 +1,4 @@
-﻿namespace bookstore.Shared.Constants
+﻿namespace bookstore.Shared.Api
 {
     public abstract class BaseApi
     {

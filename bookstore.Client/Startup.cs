@@ -1,4 +1,4 @@
-using bookstore.Shared.Constants;
+using bookstore.Shared.Api;
 using Microsoft.AspNetCore.Blazor.Builder;
 using Microsoft.Extensions.DependencyInjection;
 

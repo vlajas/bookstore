@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using bookstore.Client.Extensions;
-using bookstore.Shared.Constants;
+using bookstore.Shared.Api;
 using Microsoft.AspNetCore.Blazor;
 using Microsoft.AspNetCore.Blazor.Components;
 
