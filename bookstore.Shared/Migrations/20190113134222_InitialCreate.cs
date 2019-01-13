@@ -14,14 +14,14 @@ namespace bookstore.Shared.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(maxLength: 50, nullable: false),
+                    Title = table.Column<string>(nullable: false),
                     Price = table.Column<decimal>(nullable: false),
-                    Author = table.Column<string>(maxLength: 50, nullable: false),
-                    Publisher = table.Column<string>(maxLength: 50, nullable: true),
+                    Author = table.Column<string>(nullable: false),
+                    Publisher = table.Column<string>(nullable: true),
                     PublicationDate = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Language = table.Column<string>(maxLength: 50, nullable: true),
+                    Language = table.Column<string>(nullable: true),
                     ImageUrl = table.Column<string>(nullable: true),
-                    Category = table.Column<string>(maxLength: 50, nullable: false),
+                    Category = table.Column<string>(nullable: false),
                     Isbn = table.Column<string>(nullable: true),
                     NumberOfPages = table.Column<int>(nullable: false)
                 },

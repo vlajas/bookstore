@@ -74,23 +74,17 @@ namespace bookstore.Shared
             {
                 entity.HasKey(e => e.Id);
                 
-                entity.Property(e => e.Author)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.Author).IsRequired();
 
-                entity.Property(e => e.Category)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.Category).IsRequired();
 
-                entity.Property(e => e.Language).HasMaxLength(50);
+                entity.Property(e => e.Language);
 
                 entity.Property(e => e.PublicationDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Publisher).HasMaxLength(50);
+                entity.Property(e => e.Publisher);
 
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.Title).IsRequired();
             });
 
             modelBuilder.Entity<ShoppingCartItem>(entity =>

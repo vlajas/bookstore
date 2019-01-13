@@ -25,19 +25,16 @@ namespace bookstore.Shared.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Author")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                        .IsRequired();
 
                     b.Property<string>("Category")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                        .IsRequired();
 
                     b.Property<string>("ImageUrl");
 
                     b.Property<string>("Isbn");
 
-                    b.Property<string>("Language")
-                        .HasMaxLength(50);
+                    b.Property<string>("Language");
 
                     b.Property<int>("NumberOfPages");
 
@@ -46,12 +43,10 @@ namespace bookstore.Shared.Migrations
                     b.Property<DateTime>("PublicationDate")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("Publisher")
-                        .HasMaxLength(50);
+                    b.Property<string>("Publisher");
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                        .IsRequired();
 
                     b.HasKey("Id");
 
