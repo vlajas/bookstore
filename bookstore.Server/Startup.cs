@@ -7,9 +7,10 @@ using System.Linq;
 using System.Net.Mime;
 using bookstore.Core.Data;
 using bookstore.Core.Services;
-using bookstore.Shared.Entities;
+using bookstore.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Serialization;
 
 namespace bookstore.Server
 {
@@ -26,7 +27,15 @@ namespace bookstore.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new DefaultNamingStrategy()
+                };
+
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
 
             services.AddResponseCompression(options =>
             {
