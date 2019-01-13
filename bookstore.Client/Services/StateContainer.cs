@@ -54,6 +54,13 @@ namespace bookstore.Client.Services
             SaveShoppingCartItems();
         }
 
+        public void RemoveShoppingCartItem(int itemId)
+        {
+            _shoppingCartItems.RemoveAll(x => x.Id == itemId);
+
+            SaveShoppingCartItems();
+        }
+
         public void ClearShoppingCart()
         {
             _shoppingCartItems.Clear();

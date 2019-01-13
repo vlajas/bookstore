@@ -1,0 +1,77 @@
+﻿@page "/cart"
+@using System.Globalization
+@using bookstore.Client.Services
+@using bookstore.Shared.Api
+@using bookstore.Shared.Entities
+
+@inject StateContainer StateContainer
+@inject HttpClient Http
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10">
+            <h1>Shopping Cart</h1>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+
+    <div style="margin-top: 25px">
+        @if (StateContainer.ShoppingCartItems.Count > 0)
+        {
+            <table class="table table-striped table-bordered table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th class="text-center" style="width: 25%">Cover</th>
+                    <th class="text-center" style="width: 25%">Title</th>
+                    <th class="text-center" style="width: 25%">Quantity</th>
+                    <th class="text-center" style="width: 25%">Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                    @foreach (ShoppingCartItem sci in StateContainer.ShoppingCartItems)
+                    {
+                        <tr>
+                            <td class="text-center align-middle">
+                                <button class="btn btn-danger btn-sm" onclick="@(async () => await RemoveShoppingCartItem(sci.Id))">
+                                    <span class="oi oi-x"></span>
+                                </button>
+                            </td>
+                            <td class="text-center align-middle">
+                                @if (!string.IsNullOrWhiteSpace(sci.Book.ImageUrl))
+                                {
+                                    <img src="@sci.Book.ImageUrl" alt="@sci.Book.Title" width="80" height="120"/>
+                                }
+                            </td>
+                            <td class="text-center align-middle">@sci.Book.Title</td>
+                            <td class="text-center align-middle">
+                                <input type="number" style="width: 70px; text-align: center" min="1" bind="@sci.Quantity"/>
+                            </td>
+                            <td class="text-center align-middle">@sci.Price.ToString("c2", new CultureInfo("sr-Latn-RS"))</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4"></td>
+                        <td class="text-center">
+                            Subtotal: <span style="color: red">@StateContainer.ShoppingCartItems.Sum(x => x.Quantity * x.Price).ToString("c2", new CultureInfo("sr-Latn-RS"))</span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        }
+    </div>
+
+</div>
+
+@functions
+{
+    private async Task RemoveShoppingCartItem(int itemId)
+    {
+        StateContainer.RemoveShoppingCartItem(itemId);
+
+        await Http.DeleteAsync(string.Format(PublicApi.DeleteSci, itemId));
+    }
+}

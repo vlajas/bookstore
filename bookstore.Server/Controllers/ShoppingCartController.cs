@@ -64,5 +64,14 @@ namespace bookstore.Server.Controllers
 
             return sci;
         }
+
+        [HttpDelete]
+        [Route("{id?}")]
+        public bool DeleteShoppingCartItem(int id)
+        {
+            ShoppingCartItem sci = _shoppingCartItemRepository.Get(id);
+
+            return sci != null && _shoppingCartItemRepository.Delete(sci);
+        }
     }
 }
