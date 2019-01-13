@@ -48,11 +48,13 @@ namespace bookstore.Core.Services
                 AuthorizationStatus = AuthorizationStatus.Success,
                 User = new UserModel
                 {
+                    Id = user.Id,
                     Email = user.Email,
                     Username = user.Username,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    Roles = user.Roles.Select(x=> x.Name.ToLower()).ToList()
+                    Roles = user.Roles.Select(x=> x.Name.ToLower()).ToList(),
+                    ShoppingCartItems = user.ShoppingCartItems
                 }
             };
     }

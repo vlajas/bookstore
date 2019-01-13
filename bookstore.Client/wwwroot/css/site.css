@@ -14,6 +14,7 @@ app {
     height: 3.5rem;
     display: flex;
     align-items: center;
+    z-index: 1000;
 }
 
 .main {
@@ -121,3 +122,64 @@ app {
         display: block;
     }
 }
+
+.book-container {
+    padding: 15px;
+    cursor: pointer;
+}
+
+.book-container:hover {
+    background-color: #e6e6e6;
+    transition-duration: 500ms;
+    transform: scale(1.03);
+}
+
+.book-title {
+    margin-top: 20px;
+    font-size: 20px;
+    color: black !important;
+    cursor: pointer;
+}
+
+.book-container > a {
+    text-decoration: none;
+}
+
+.spinner-border {
+    display: inline-block;
+    width: $spinner-width;
+    height: $spinner-height;
+    vertical-align: text-bottom;
+    border: $spinner-border-width solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spinner-border .75s linear infinite;
+}
+
+.book-detail-title {
+    font-size: 40px
+}
+
+.book-detail-author {
+    font-size: 30px;
+    opacity: 80
+}
+
+.book-detail-category {
+    font-size: 25px
+}
+
+.book-detail-info {
+    font-size: 25px
+}
+
+.book-detail-addtocart {
+    margin-top: 20px;
+}
+
+.mini-cart-container {
+    cursor: pointer;
+}
+    .mini-cart-container > a {
+        text-decoration: none;
+    }

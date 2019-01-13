@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width">
-    <title>bookstore</title>
+    <title>Blazor Bookstore</title>
     <base href="/" />
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
@@ -12,5 +12,18 @@
     <app>Loading...</app>
 
     <script src="_framework/blazor.webassembly.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <script>
+        window.alertNotLoggedIn = () => {
+            alert("You must be logged in to add this book to the cart!");
+
+            return true;
+        };
+
+        window.addToCartSuccess = () => {
+            toastr.success("Successfully added item to cart.");
+        }
+    </script>
 </body>
 </html>

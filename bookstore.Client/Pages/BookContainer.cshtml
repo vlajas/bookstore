@@ -1,0 +1,21 @@
+﻿
+<div class="col-md-4 text-center book-container">
+    <NavLink class="nav-link" href="@BookDetailsUri">
+        <img src="@BookModel.ImageUrl" alt="@BookModel.Title" width="300" height="450" />
+
+        <div>
+            <label class="book-title">
+                @BookModel.Title, @BookModel.Author
+            </label>
+        </div>
+    </NavLink>
+</div>
+
+@functions
+{
+[Parameter]
+private bookstore.Shared.Entities.Book BookModel { get; set; }
+
+[Parameter]
+private string BookDetailsUri { get; set; }
+}

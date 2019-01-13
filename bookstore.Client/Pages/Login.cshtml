@@ -35,17 +35,19 @@
 {
     private readonly AuthorizationRequest _authRequest = new AuthorizationRequest();
 
-    private bool _invalidRequest = false;
+    private bool _invalidRequest;
 
     private async Task SignIn()
     {
-        AuthorizationResponse response = await Http.PostJsonAsync<AuthorizationResponse>(AccountApi.Authorize, _authRequest);
+        AuthorizationResponse response = await Http.PostJsonAsync<AuthorizationResponse>(PublicApi.Authorize, _authRequest);
 
         if (response.AuthorizationStatus == AuthorizationStatus.Success)
         {
             StateContainer.CurrentUser = response.User;
 
-            StateContainer.NotifyStateChanged();
+            StateContainer.ClearShoppingCart();
+            
+            StateContainer.AddShoppingCartItems(response.User.ShoppingCartItems);
 
             UriHelper.NavigateTo("/");
         }

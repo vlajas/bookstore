@@ -1,0 +1,110 @@
+﻿@page "/details/{BookId}"
+
+@using System.Globalization
+@using bookstore.Client.Services
+@using bookstore.Core.Models
+@using bookstore.Shared.Api
+@using bookstore.Shared.Entities
+@using Blazor.Toastr
+@using Blazor.Toastr.Enums
+
+@inject BookApi BookApi
+@inject HttpClient Http
+@inject StateContainer StateContainer
+@inject IToastrService Toastr
+
+@if (_book == null)
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="@_book.ImageUrl" alt="@_book.Title" width="500" height="800"/>
+            </div>
+            <div class="col-md-8">
+                <label class="book-detail-title">
+                    @_book.Title
+                </label>
+                <p class="book-detail-author">@_book.Author</p>
+                <p class="book-detail-category">(@_book.Category)</p>
+
+                <hr/>
+                
+                <div class="book-detail-info">
+                    <p>Publisher: @_book.Publisher</p>
+                    
+                    <p>Publication Date: @_book.PublicationDate.ToString("dd/MM/yyyy")</p>
+                    
+                    <p>ISBN: @_book.Isbn</p>
+                    
+                    <p>Number of pages: @_book.NumberOfPages</p>
+                    
+                    <p>Price: 
+                        <label style="color: green">
+                            @_book.Price.ToString("c2", new CultureInfo("sr-Latn-RS"))
+                        </label>
+                    </p>
+                </div>
+                <div class="form-inline">
+                    <div class="book-detail-addtocart form-group">
+                        <input type="number" min="1" bind="@_quantity" class="form-control text-center" style="width: 70px; height: 48px;margin-right: 15px" />
+
+                        <button onclick="@(async () => await AddToCart())" class="btn btn-warning btn-lg">
+                            <span class="oi oi-cart">&nbsp; ADD TO CART</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@functions
+{
+    [Parameter]
+    private string BookId { get; set; }
+
+    private bookstore.Shared.Entities.Book _book;
+
+    private int _quantity = 1;
+
+    protected override async Task OnInitAsync()
+    {
+        StateContainer.OnChange += StateHasChanged;
+
+        _book = await Http.GetJsonAsync<bookstore.Shared.Entities.Book>(string.Format(BookApi.Get, BookId));
+
+        StateHasChanged();
+    }
+
+    private async Task AddToCart()
+    {
+        if (StateContainer.CurrentUser == null)
+        {
+            await JSRuntime.Current.InvokeAsync<bool>("alertNotLoggedIn");
+
+            return;
+        }
+
+        ShoppingCartItem sci = await Http.PostJsonAsync<ShoppingCartItem>(PublicApi.AddToCart,
+            new AddToCartRequest
+            {
+                UserId = StateContainer.CurrentUser.Id,
+                BookId = _book.Id,
+                Quantity = _quantity
+            });
+
+        StateContainer.AddShoppingCartItem(sci);
+
+        _quantity = 1;
+        
+        Toastr.Show(ToastrType.Success, "Successfully added item to cart.");
+    }
+}

@@ -1,0 +1,22 @@
+﻿@using bookstore.Client.Services
+
+@inject StateContainer StateContainer
+
+@if (StateContainer.CurrentUser != null)
+{
+    <div class="ml-md-auto mini-cart-container">
+        <NavLink href="cart">
+            <span class="oi oi-cart" style="font-size: 20px">&nbsp;</span> (@StateContainer.ShoppingCartItems.Sum(x => x.Quantity)) Shopping Cart
+        </NavLink>
+    </div>
+}
+
+@functions
+{
+    protected override async Task OnInitAsync()
+    {
+        StateContainer.OnChange += StateHasChanged;
+
+        await Task.CompletedTask;
+    }
+}
