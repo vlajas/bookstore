@@ -61,23 +61,52 @@ namespace bookstore.Shared.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ShoppingCart",
+                name: "Order",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(nullable: false),
-                    GrandTotal = table.Column<decimal>(nullable: false)
+                    ItemCount = table.Column<int>(nullable: false),
+                    OrderTotal = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShoppingCart", x => x.Id);
+                    table.PrimaryKey("PK_Order", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShoppingCart_User_UserId",
+                        name: "FK_Order_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ShoppingCartItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(nullable: false),
+                    BookId = table.Column<int>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShoppingCartItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCartItem_Book_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Book",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCartItem_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,37 +134,47 @@ namespace bookstore.Shared.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ShoppingCartItem",
+                name: "OrderItem",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ShoppingCartId = table.Column<int>(nullable: false),
+                    OrderId = table.Column<int>(nullable: false),
                     BookId = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
-                    Subtotal = table.Column<decimal>(nullable: false)
+                    Price = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShoppingCartItem", x => x.Id);
+                    table.PrimaryKey("PK_OrderItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShoppingCartItem_Book_BookId",
+                        name: "FK_OrderItem_Book_BookId",
                         column: x => x.BookId,
                         principalTable: "Book",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ShoppingCartItem_ShoppingCart_ShoppingCartId",
-                        column: x => x.ShoppingCartId,
-                        principalTable: "ShoppingCart",
+                        name: "FK_OrderItem_Order_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Order",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShoppingCart_UserId",
-                table: "ShoppingCart",
+                name: "IX_Order_UserId",
+                table: "Order",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItem_BookId",
+                table: "OrderItem",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItem_OrderId",
+                table: "OrderItem",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShoppingCartItem_BookId",
@@ -143,9 +182,9 @@ namespace bookstore.Shared.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShoppingCartItem_ShoppingCartId",
+                name: "IX_ShoppingCartItem_UserId",
                 table: "ShoppingCartItem",
-                column: "ShoppingCartId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoleMapping_RoleId",
@@ -156,16 +195,19 @@ namespace bookstore.Shared.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "OrderItem");
+
+            migrationBuilder.DropTable(
                 name: "ShoppingCartItem");
 
             migrationBuilder.DropTable(
                 name: "UserRoleMapping");
 
             migrationBuilder.DropTable(
-                name: "Book");
+                name: "Order");
 
             migrationBuilder.DropTable(
-                name: "ShoppingCart");
+                name: "Book");
 
             migrationBuilder.DropTable(
                 name: "Role");

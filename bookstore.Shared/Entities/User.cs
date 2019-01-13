@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace bookstore.Shared.Entities
 {
@@ -14,10 +15,12 @@ namespace bookstore.Shared.Entities
 
         public string Email { get; set; }
 
-        public virtual List<ShoppingCart> ShoppingCarts { get; set; }
-
         public virtual List<UserRoleMapping> UserRoleMappings { get; set; }
 
-        public virtual List<Role> Roles { get; set; }
+        public virtual List<Role> Roles => UserRoleMappings != null ? UserRoleMappings.Select(x => x.Role).ToList() : new List<Role>();
+
+        public virtual List<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        public virtual List<Order> Orders { get; set; }
     }
 }

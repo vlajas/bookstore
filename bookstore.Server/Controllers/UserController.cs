@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using bookstore.Core.Data;
+﻿using bookstore.Core.Data;
 using bookstore.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace bookstore.Server.Controllers
 {

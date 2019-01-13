@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using bookstore.Core.Models;
+using bookstore.Shared;
 using bookstore.Shared.Entities;
 
 namespace bookstore.Core.Services
@@ -51,7 +52,7 @@ namespace bookstore.Core.Services
                     Username = user.Username,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    Roles = user.UserRoleMappings.Select(x=> x.Role.Name.ToLower()).ToList()
+                    Roles = user.Roles.Select(x=> x.Name.ToLower()).ToList()
                 }
             };
     }

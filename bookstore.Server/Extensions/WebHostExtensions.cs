@@ -1,4 +1,5 @@
 ﻿using System;
+using bookstore.Shared;
 using bookstore.Shared.Entities;
 using bookstore.Shared.Seed;
 using Microsoft.AspNetCore.Hosting;
