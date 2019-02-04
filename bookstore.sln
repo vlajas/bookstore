@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bookstore.Client", "booksto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bookstore.Shared", "bookstore.Shared\bookstore.Shared.csproj", "{C603E7DD-EBE0-4D3C-B84E-07227900F72A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bookstore.Core", "bookstore.Core\bookstore.Core.csproj", "{501219C1-A01B-4505-BDFE-530093E7813F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bookstore.Core", "bookstore.Core\bookstore.Core.csproj", "{501219C1-A01B-4505-BDFE-530093E7813F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

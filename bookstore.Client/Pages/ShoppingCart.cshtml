@@ -3,9 +3,11 @@
 @using bookstore.Client.Services
 @using bookstore.Shared.Api
 @using bookstore.Shared.Entities
+@using Microsoft.AspNetCore.Blazor.Services
 
 @inject StateContainer StateContainer
 @inject HttpClient Http
+@inject IUriHelper UriHelper
 
 <div class="container-fluid">
     <div class="row">
@@ -30,37 +32,42 @@
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach (ShoppingCartItem sci in StateContainer.ShoppingCartItems)
-                    {
-                        <tr>
-                            <td class="text-center align-middle">
-                                <button class="btn btn-danger btn-sm" onclick="@(async () => await RemoveShoppingCartItem(sci.Id))">
-                                    <span class="oi oi-x"></span>
-                                </button>
-                            </td>
-                            <td class="text-center align-middle">
-                                @if (!string.IsNullOrWhiteSpace(sci.Book.ImageUrl))
-                                {
-                                    <img src="@sci.Book.ImageUrl" alt="@sci.Book.Title" width="80" height="120"/>
-                                }
-                            </td>
-                            <td class="text-center align-middle">@sci.Book.Title</td>
-                            <td class="text-center align-middle">
-                                <input type="number" style="width: 70px; text-align: center" min="1" bind="@sci.Quantity"/>
-                            </td>
-                            <td class="text-center align-middle">@sci.Price.ToString("c2", new CultureInfo("sr-Latn-RS"))</td>
-                        </tr>
-                    }
+                @foreach (ShoppingCartItem sci in StateContainer.ShoppingCartItems)
+                {
+                    <tr>
+                        <td class="text-center align-middle">
+                            <button class="btn btn-danger btn-sm" onclick="@(async () => await RemoveShoppingCartItem(sci.Id))">
+                                <span class="oi oi-x"></span>
+                            </button>
+                        </td>
+                        <td class="text-center align-middle">
+                            @if (!string.IsNullOrWhiteSpace(sci.Book.ImageUrl))
+                            {
+                                <img src="@sci.Book.ImageUrl" alt="@sci.Book.Title" width="80" height="120"/>
+                            }
+                        </td>
+                        <td class="text-center align-middle">@sci.Book.Title</td>
+                        <td class="text-center align-middle">
+                            <input type="number" style="width: 70px; text-align: center" min="1" bind="@sci.Quantity"/>
+                        </td>
+                        <td class="text-center align-middle">@sci.Price.ToString("c2", new CultureInfo("sr-Latn-RS"))</td>
+                    </tr>
+                }
                 </tbody>
                 <tfoot>
-                    <tr>
-                        <td colspan="4"></td>
-                        <td class="text-center">
-                            Subtotal: <span style="color: red">@StateContainer.ShoppingCartItems.Sum(x => x.Quantity * x.Price).ToString("c2", new CultureInfo("sr-Latn-RS"))</span>
-                        </td>
-                    </tr>
+                <tr>
+                    <td colspan="4"></td>
+                    <td class="text-center">
+                        Subtotal: <span style="color: red">@StateContainer.ShoppingCartItems.Sum(x => x.Quantity * x.Price).ToString("c2", new CultureInfo("sr-Latn-RS"))</span>
+                    </td>
+                </tr>
                 </tfoot>
             </table>
+            <div class="col-md-2 ml-auto">
+                <button onclick="@(async () => await CreateOrder())" class="btn btn-success btn-lg">
+                    <span class="oi oi-cart">&nbsp; PLACE ORDER</span>
+                </button>
+            </div>
         }
     </div>
 
@@ -73,5 +80,23 @@
         StateContainer.RemoveShoppingCartItem(itemId);
 
         await Http.DeleteAsync(string.Format(PublicApi.DeleteSci, itemId));
+    }
+
+    private async Task CreateOrder()
+    {
+        IReadOnlyList<ShoppingCartItem> scItems = StateContainer.ShoppingCartItems;
+
+        bool result = await Http.PostJsonAsync<bool>($"api/order/{StateContainer.CurrentUser.Id}", scItems);
+
+        if (result)
+        {
+            StateContainer.ClearShoppingCart();
+
+            StateContainer.NotifyStateChanged();
+
+            UriHelper.NavigateTo("/orders");
+        }
+
+        UriHelper.NavigateTo("/cart");
     }
 }
